@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!--
+
+URL => http://localhost:8888/sample/serviceLoadJson.html
+
+1) IF angular-material.css is missing wireframe will not show toodbar & sidebar
+2) Sublime CTRL+SHIFT+P > Type Install> Type Angular> select 'AngularJS Auto Complete' and "AngularMaterial" 
+3) Do not put colon in css class it will not work, as it is not JSON !!
+4) if you print with string + json like console.log('data' + dataJson) console will not print as string & u will not be able to expand json 
+-->
+
+<title>Page Title</title>
+<link rel="stylesheet" type="text/css" href="/angular-material/angular-material.css">
+<script type="text/javascript" src="/angular/angular.min.js"></script>
+<script type="text/javascript" src="/angular-animate/angular-animate.min.js"></script>
+<script type="text/javascript" src="/angular-aria/angular-aria.min.js"></script>
+<script type="text/javascript" src="/angular-material/angular-material.min.js"></script>
+</head>
+<body>
+
+
+<div class="mainController" data-ng-app="MainApp">
+	
+	<!-- Search with name, filter name is plantSearch -->
+	<!-- plantSearch.$ will search all fields that is name, type, companion etc -->
+	<!-- orderBy -name stands for reverse order   -->
+	<!-- limitTo reduces output in repeat to assign number value -->
+	<input type="text" data-ng-model="plantSearch.name" ></input>
+
+	<div data-ng-controller="deferedSerivceCntrl">  
+		<div data-ng-repeat="plant in allPlants 
+								| filter:plantSearch 
+								| orderBy : '-name'
+								| limitTo : 5
+								"> 
+		<span> {{plant.name}} </span>
+		</div>
+	</div>
+
+
+
+
+</div>
+
+
+<script type="text/javascript">
+	
+	var app = angular.module("MainApp",[]);
+
+	//Lazy Loading Service
+	app.service("deferedPlantService" , function($http, $q){
+
+		var deferred = $q.defer();
+
+		$http.get('/getAllPlants').then(function(data){
+
+			deferred.resolve(data);
+			console.log('getAllPlants : ' + data.data.name);
+
+		});
+
+		console.log("after $http.get");
+
+		this.getAllPlants = function() {
+
+			return deferred.promise;
+
+		}
+	}
+	)
+
+
+	.controller("deferedSerivceCntrl", function($scope, deferedPlantService){
+
+		var promise = deferedPlantService.getAllPlants();
+
+		promise.then(function(data){
+
+			$scope.allPlants = data.data;
+			console.log($scope.allPlants);
+
+		}
+		)
+
+	})
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+
+
+<!-- 
+
+- Sublime => Ctrl+SHF+P > Install> Emmet 
+- Emmet plugin will auto generate HTML
+
+if new write name : 'bind' it is not working in 1.5 version but '@' is working
+-->
+
+<!doctype html>
+<html >
+<head>
+	
+	<script type="text/javascript" src="/angular/angular.min.js"></script>
+
+</head>
+<body ng-app="HelloApp">
+<div ng-controller="testCtrlr">
+<hello-world name="John Lindquist"></hello-world> {{pages}}
+</div>
+</body>
+
+<script>
+	
+	angular.module('components', [])
+	.controller('testCtrlr',['$scope', function($scope){
+        $scope.pages = 'PAGES!'
+	}])
+    .directive('helloWorld', function () {
+        return {
+            restrict: 'E',
+            //comment replace attribute and you will see <hello-wold tag is there in DOM.
+           replace :'true',
+            scope:{
+                name:'@'
+            },
+            template: '<span>Hello {{name}}</span>'
+
+        }
+    })
+
+	angular.module('HelloApp', ['components'])
+
+</script>
+</html>
+

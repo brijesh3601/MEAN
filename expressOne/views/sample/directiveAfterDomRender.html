@@ -1,0 +1,65 @@
+
+<!-- Reference URL =>http://jsfiddle.net/christianacca/q6ypA/ 
+
+1) if you put write controller as function it throws error on browser however if you tie controller with module like app.controller it works fine. Possibly  higher angular version does not support it
+
+2)															function stgCntlr($scope){$scope.repeat = 5;} => will not work, throws error
+
+app.controller("stgCntlr", func..) => works
+
+3) If you comment line attrs.$observe("repeatHelloWorldAttr", hello); console will not show ouput as the dom is not ready with 'repeat' value
+
+-->
+
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<script type="text/javascript" src="/angular/angular.min.js"></script>
+</head>
+
+    <body ng-controller="stageController">
+        <p><strong>The workaround represented in this jsfiddle is not required as of angular vs 1.2.x</strong></p>
+        <div repeat-hello-world-attr="{{repeat}}"></div>
+    </body>
+
+
+
+<script>
+
+	// Declare app level module which depends on filters, and services
+	angular.module('myApp', ['myApp.directives']);
+
+	//here we are passing repeatDirective to myApp
+	angular.module('myApp.directives', [])
+	.controller('stageController', function($scope){
+
+			$scope.repeat = 5;
+
+	})
+	.directive('repeatHelloWorldAttr', ['$timeout', function (timer) {
+    return {
+        link: function (scope, elem, attrs, ctrl) {
+                
+        	console.info("Intializing link function -- I will be called even when $observe is not used");
+            var hello = function () {
+                console.info("Repeat number: " + attrs.repeatHelloWorldAttr);
+                for (var i = 0; i < attrs.repeatHelloWorldAttr; i++) {
+                    console.log("Hello world!");
+                }
+            }
+            //now works - schedule execution of the body of linking function (the fn 'hello') until after DOM has rendered and react to the attribute value changes because of interpolation of the expression {{repeat}}
+            //attrs.$observe("repeatHelloWorldAttr", hello);
+            
+            /* No longer required:          
+            // timer(hello, 0);
+            */
+        }
+    }
+}]);
+
+
+
+
+
+</script>
+</html>

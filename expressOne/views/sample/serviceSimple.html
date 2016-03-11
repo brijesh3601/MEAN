@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!--
+
+URL => http://localhost:8888/sample/serviceLoadJson.html
+
+1) IF angular-material.css is missing wireframe will not show toodbar & sidebar
+2) Sublime CTRL+SHIFT+P > Type Install> Type Angular> select 'AngularJS Auto Complete' and "AngularMaterial" 
+3) Do not put colon in css class it will not work, as it is not JSON !!
+4) if you print with string + json like console.log('data' + dataJson) console will not print as string & u will not be able to expand json 
+-->
+
+<title>Page Title</title>
+<link rel="stylesheet" type="text/css" href="/angular-material/angular-material.css">
+<script type="text/javascript" src="/angular/angular.min.js"></script>
+<script type="text/javascript" src="/angular-animate/angular-animate.min.js"></script>
+<script type="text/javascript" src="/angular-aria/angular-aria.min.js"></script>
+<script type="text/javascript" src="/angular-material/angular-material.min.js"></script>
+</head>
+<body>
+
+
+<div class="mainController" data-ng-app="MainApp">
+	
+
+	<div data-ng-controller="httpSerivceCntrl">  
+		<div data-ng-repeat="plant in allPlants"> 
+		<span> {{plant.name}} </span>
+		</div>
+	</div>
+
+
+
+</div>
+
+
+<script type="text/javascript">
+	
+	var app = angular.module("MainApp",[]);
+
+	//Lazy Loading Service
+
+	app.service("httpPlantService" , function($http, $q){
+
+	
+		
+		this.getAllPlants = function() {
+
+			return $http({
+				method: 'GET',
+				url : '/getAllPlants'
+			
+			})
+			.success(function(data){
+				return data;
+			})
+			.error(function(){
+				alert('allPlants error')
+				return null;
+			})
+
+			
+	
+		}
+
+		console.log("after $http.get");
+
+	})
+
+
+
+	.controller("httpSerivceCntrl", function($scope, $http, httpPlantService){
+		//$scope.allPlants = $http.get('/getAllPlants');
+
+		httpPlantService.getAllPlants().then(function(response){
+
+			$scope.allPlants = response.data;
+
+		})
+		
+		console.log("exit httpPlantService");
+
+
+
+	})
+
+
+</script>
+
+
+
+
+</body>
+</html>

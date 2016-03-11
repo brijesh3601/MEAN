@@ -1,0 +1,41 @@
+
+<!-- In this example input type is range and the value of input is bound to the json 'value' field. Changing the input range changes the json also. You can view updated json by clicking save button -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script type="text/javascript" src="/angular/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl"> 
+	
+	<div  ng-repeat ="lang in languages" >  
+		<span>{{lang.name}}</span>
+		<input type="range" ng-model="lang.value" min="0" max="4">
+		
+	</div>
+
+	<button ng-click="save()">Save</button>
+		<p>{{msg}}</p>
+
+	<script>
+		var app = angular.module('myApp', []);
+
+		app.controller('myCtrl', function($scope){
+
+			$scope.languages = [        
+							    {name:"English", value:0},
+							    {name:"Spanish", value:1},
+							    {name:"German", value:3},
+							    {name:"Russian", value:2},
+							    {name:"Korean", value:1}
+							  ];
+
+		    $scope.save = function(){
+		    	$scope.msg = "Updated JSON " +
+		    				  JSON.stringify($scope.languages)
+		    }
+		})
+
+	</script>
+</body>
+</html>
