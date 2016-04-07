@@ -1,6 +1,6 @@
 Run below commands after checkout :-
 
-1) npm install angular angular-material –save
+1) npm install angular angular-material â€“save_
 2) npm install express
 3) npm i ejs  <= ejs engine
 
