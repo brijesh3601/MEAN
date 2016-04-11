@@ -2,14 +2,11 @@ Goal
 ---------------------------------------------------------------------------------------------------------
 Create nodejs express project with basic mongoDB connection and adding few records. 
 
-Project Build Steps
+Steps to see in action 
 ---------------------------------------------------------------------------------------------------------
-1) npm install express-generator -g (in case express-generator is not installed. )
-2) express expressMongo (this will create 'expressMongo' folder with basic file)
-3) npm install (this will create node_modules with all dependency as mentioned in package.json)
-3) npm start , 
-4) http://localhost:3000/
-
+1) npm install (this will create node_modules dir)
+2) mongod --config C:\mongodb\mongo.config
+3) npm start
 
 Start NodeJs
 ---------------------------------------------------------------------------------------------------------
@@ -33,6 +30,17 @@ mongod --config C:\mongodb\mongo.config
 1) type mongo (mongo shell)
 2) use exampleDb
 3) db.test.find() (this will show four records after visiting URL http://localhost:3000. 'test' is collection name)
+
+
+
+Steps taken to build this project (do not perform if you are doing check out)
+---------------------------------------------------------------------------------------------------------
+1) npm install express-generator -g (in case express-generator is not installed. )
+2) express expressMongo (this will create 'expressMongo' folder with basic file)
+3) npm install (this will create node_modules with all dependency as mentioned in package.json)
+3) npm start ,
+4) http://localhost:3000/
+
 
 
 Routing  using node
